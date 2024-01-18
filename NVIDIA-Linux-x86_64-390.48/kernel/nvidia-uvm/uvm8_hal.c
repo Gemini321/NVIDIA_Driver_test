@@ -194,6 +194,10 @@ static uvm_hal_class_ops_t arch_table[] =
             .mmu_mode_hal = uvm_hal_mmu_mode_kepler,
             .enable_prefetch_faults = uvm_hal_kepler_mmu_enable_prefetch_faults_unsupported,
             .disable_prefetch_faults = uvm_hal_kepler_mmu_disable_prefetch_faults_unsupported,
+            .phys_addr_to_allocation_color = uvm_hal_kepler_mmu_phys_addr_to_allocation_color_unsupported,
+            .phys_addr_to_transfer_color = uvm_hal_kepler_mmu_phys_addr_to_transfer_color_unsupported,
+            .phys_addr_to_base_transfer_color_addr = uvm_hal_kepler_mmu_phys_addr_to_base_transfer_color_addr_unsupported,
+            .phys_addr_to_transfer_color_idx = uvm_hal_kepler_mmu_phys_addr_to_transfer_color_idx_unsupported
         }
     },
     {
@@ -226,6 +230,10 @@ static uvm_hal_class_ops_t arch_table[] =
             .mmu_mode_hal = uvm_hal_mmu_mode_pascal,
             .enable_prefetch_faults = uvm_hal_pascal_mmu_enable_prefetch_faults,
             .disable_prefetch_faults = uvm_hal_pascal_mmu_disable_prefetch_faults,
+            .phys_addr_to_allocation_color = uvm_hal_pascal_mmu_phys_addr_to_allocation_color,
+            .phys_addr_to_transfer_color = uvm_hal_pascal_mmu_phys_addr_to_transfer_color,
+            .phys_addr_to_base_transfer_color_addr = uvm_hal_pascal_mmu_phys_addr_to_base_transfer_color_addr,
+            .phys_addr_to_transfer_color_idx = uvm_hal_pascal_mmu_phys_addr_to_transfer_color_idx,
         }
     },
     {
@@ -234,6 +242,10 @@ static uvm_hal_class_ops_t arch_table[] =
         .u.arch_ops = {
             .init_properties = uvm_hal_volta_arch_init_properties,
             .mmu_mode_hal = uvm_hal_mmu_mode_volta,
+            .phys_addr_to_allocation_color = uvm_hal_volta_mmu_phys_addr_to_allocation_color,
+            .phys_addr_to_transfer_color = uvm_hal_volta_mmu_phys_addr_to_transfer_color,
+            .phys_addr_to_base_transfer_color_addr = uvm_hal_volta_mmu_phys_addr_to_base_transfer_color_addr,
+            .phys_addr_to_transfer_color_idx = uvm_hal_volta_mmu_phys_addr_to_transfer_color_idx,
         },
     },
 

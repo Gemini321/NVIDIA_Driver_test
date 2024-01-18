@@ -64,4 +64,7 @@ void uvm_hal_kepler_arch_init_properties(uvm_gpu_t *gpu)
     gpu->access_counters_supported = false;
 
     gpu->fault_cancel_va_supported = false;
+
+    gpu->num_allocation_mem_colors = 0;
+    gpu->num_transfer_mem_colors = 0;
 }

@@ -805,24 +805,21 @@ struct uvm_gpu_struct
 #if UVM_IS_CONFIG_HMM()
     uvm_hmm_gpu_t hmm_gpu;
 #endif
+    
+    // This is the number of colors provided during allocation.
+    // For userspace coloring, this would be equal to 1 since all coloring
+    // happens in userspace
+    // This is set to 0 to indicate GPU doesn't support coloring yet.
+    NvU32 num_allocation_mem_colors;
 
+    // This is the number of colors provided for transfer of memory.
+    // For userspace coloring, this can be greater than 1 since memory transfer
+    // between devices needs to be color aware in a similar manner to userspace
+    NvU32 num_transfer_mem_colors;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // Only valid if num_mem_colors != 0
+    NvU64 colored_allocation_chunk_size;
+    NvU64 colored_transfer_chunk_size;
 
     uvm_gpu_link_type_t sysmem_link;
 };
@@ -1029,8 +1026,23 @@ static bool uvm_gpu_is_gk110_plus(uvm_gpu_t *gpu)
 // The GPU must be initialized before calling this function.
 bool uvm_gpu_can_address(uvm_gpu_t *gpu, NvU64 addr);
 
+static bool uvm_gpu_supports_coloring(uvm_gpu_t *gpu)
+{
+    // If coloring is not supported, both types of colors should be zero.
+    UVM_ASSERT((gpu->num_allocation_mem_colors == 0) ==
+        (gpu->num_transfer_mem_colors == 0));
+
+    if (gpu->num_allocation_mem_colors == 0)
+        return false;
+    return true;
+}
+
 static bool uvm_gpu_supports_eviction(uvm_gpu_t *gpu)
 {
+    // XXX: Restricting eviction for now as it is not working correctly.
+    if (uvm_gpu_supports_coloring(gpu))
+        return false;
+
     // Eviction is supported only if the GPU supports replayable faults
     return gpu->replayable_faults_supported;
 }
